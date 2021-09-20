@@ -17,9 +17,10 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        create(id: ID!, title: String!, author: String!, publishedAt: Int!): Book
-        delete(id: ID!): Boolean
-        update(id: ID!, title: String, author: String, publishedAt: Int): Book
+        abrirConta(id: ID!, title: String!, author: String!, publishedAt: Int!): Book
+        sacar(id: ID!, title: String!, author: String!, publishedAt: Int!): Book
+        depositar(id: ID!): Boolean
+        saldo(id: ID!, title: String, author: String, publishedAt: Int): Book
     }
 `;
 
@@ -34,17 +35,22 @@ const resolvers = {
   },
 
   Mutation: {
-    create: (_, { id, title, author, publishedAt }) => {
+    abrirConta: (_, { id, title, author, publishedAt }) => {
       const book = { id, title, author, publishedAt };
       books.push(book);
       return book;
     },
-    delete: (_, { id }) => {
+    sacar: (_, { id, title, author, publishedAt }) => {
+      const book = { id, title, author, publishedAt };
+      books.push(book);
+      return book;
+    },
+    depositar: (_, { id }) => {
       const filteredBooks = books.filter((book) => book.id !== id);
       books = filteredBooks;
       return true;
     },
-    update: (_, { id, title, author, publishedAt }) => {
+    saldo: (_, { id, title, author, publishedAt }) => {
       const book = books.find((book) => book.id === id);
       book.id = book.id
       book.title = title ? title : book.title;
