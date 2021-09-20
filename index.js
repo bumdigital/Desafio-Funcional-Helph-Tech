@@ -1,62 +1,60 @@
 const { ApolloServer, gql } = require('apollo-server');
 
 //CREATE DATABASE
-let books = [];
+let clientes = [];
 
 const typeDefs = gql`
-  type Book {
-        id: ID!
-        title: String
-        author: String
-        publishedAt: Int
+  type Cliente {
+        conta: ID!
+        titular: String
+        saldo: Int
     }
 
     type Query {
-        books: [Book]
-        book(id: ID!): Book
+        clientes: [Cliente]
+        cliente(conta: ID!): Cliente
     }
 
     type Mutation {
-        abrirConta(id: ID!, title: String!, author: String!, publishedAt: Int!): Book
-        sacar(id: ID!, title: String!, author: String!, publishedAt: Int!): Book
-        depositar(id: ID!): Boolean
-        saldo(id: ID!, title: String, author: String, publishedAt: Int): Book
+        abrirConta(conta: ID!, titular: String!, saldo: Int!): Cliente
+        sacar(conta: ID!, titular: String!, saldo: Int!): Cliente
+        depositar(conta: ID!): Boolean
+        saldo(conta: ID!, titular: String, saldo: Int): Cliente
     }
 `;
 
 const resolvers = {
   Query: {
-    books: () => {
-      return books;
+    clientes: () => {
+      return clientes;
     },
-    book: (_, { id }) => {
-      return books.find((book) => book.id === id);
+    cliente: (_, { conta }) => {
+      return clientes.find((cliente) => cliente.conta === conta);
     },
   },
 
   Mutation: {
-    abrirConta: (_, { id, title, author, publishedAt }) => {
-      const book = { id, title, author, publishedAt };
-      books.push(book);
-      return book;
+    abrirConta: (_, { conta, titular, saldo }) => {
+      const cliente = { conta, titular, saldo };
+      clientes.push(cliente);
+      return cliente;
     },
-    sacar: (_, { id, title, author, publishedAt }) => {
-      const book = { id, title, author, publishedAt };
-      books.push(book);
-      return book;
+    sacar: (_, { conta, titular, saldo }) => {
+      const cliente = { conta, titular, saldo };
+      clientes.push(cliente);
+      return cliente;
     },
-    depositar: (_, { id }) => {
-      const filteredBooks = books.filter((book) => book.id !== id);
-      books = filteredBooks;
+    depositar: (_, { conta }) => {
+      const filteredClientes = clientes.filter((cliente) => cliente.conta !== conta);
+      clientes = filteredClientes;
       return true;
     },
-    saldo: (_, { id, title, author, publishedAt }) => {
-      const book = books.find((book) => book.id === id);
-      book.id = book.id
-      book.title = title ? title : book.title;
-      book.author = author ? author : book.author;
-      book.publishedAt = publisheAt ? publishedAt : book.publishedAt;
-      return book;
+    saldo: (_, { conta, titular, saldo }) => {
+      const cliente = clientes.find((cliente) => cliente.conta === conta);
+      cliente.conta = cliente.conta
+      cliente.titular = titular ? titular : cliente.titular;
+      cliente.saldo = saldo ? saldo : cliente.saldo;
+      return cliente;
     },
   },
 };
