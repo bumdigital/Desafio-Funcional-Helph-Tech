@@ -3,6 +3,7 @@ const { ApolloServer, gql } = require('apollo-server');
 //CREATE DATABASE
 let clientes = [];
 
+//CRIANDO TIPOS
 const typeDefs = gql`
   type Cliente {
         conta: ID!
@@ -22,7 +23,7 @@ const typeDefs = gql`
         saldo(conta: ID!, titular: String, saldo: Int): Cliente
     }
 `;
-
+//CRIANDO RESOLVERS
 const resolvers = {
   Query: {
     clientes: () => {
@@ -64,7 +65,10 @@ const resolvers = {
   },
 };
 
+//CRIANDO SERVER
 const server = new ApolloServer({ typeDefs, resolvers });
 server
+
+//APONTANDO A PORTA
   .listen({ port: 9000 })
   .then(({ url }) => console.log(`Server running at ${url}`));
