@@ -33,22 +33,27 @@ const resolvers = {
     },
   },
 
+  //OBSERVAÇÃO: INICIALMENTE A APLICAÇÃO REALIZADO O CRUD
   Mutation: {
+    //CREATE
     abrirConta: (_, { conta, titular, saldo }) => {
       const cliente = { conta, titular, saldo };
       clientes.push(cliente);
       return cliente;
     },
+    //CREATE
     sacar: (_, { conta, titular, saldo }) => {
       const cliente = { conta, titular, saldo };
       clientes.push(cliente);
       return cliente;
     },
+    //DELETE
     depositar: (_, { conta }) => {
       const filteredClientes = clientes.filter((cliente) => cliente.conta !== conta);
       clientes = filteredClientes;
       return true;
     },
+    //UPDATE
     saldo: (_, { conta, titular, saldo }) => {
       const cliente = clientes.find((cliente) => cliente.conta === conta);
       cliente.conta = cliente.conta
